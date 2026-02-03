@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌙 Kenapa Muhammadiyah & NU Beda Mulai Ramadhan?</title>
+<style>
+:root {
+  --bg: #0a0a1a; --fg: #e8e8f0; --accent: #4fc3f7; --accent2: #81c784;
+  --panel: #12122a; --card: #1a1a3a; --border: #2a2a5a;
+  --nu-color: #4caf50; --muh-color: #ff9800; --gov-color: #2196f3;
+  --khgt-color: #f44336; --warn: #ffeb3b;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+.container { max-width: 900px; margin: 0 auto; padding: 1rem; }
+h1 { text-align: center; font-size: 1.8rem; margin: 1.5rem 0 0.5rem; }
+h1 .emoji { font-size: 2.2rem; }
+.subtitle { text-align: center; color: #aaa; font-size: 0.95rem; margin-bottom: 2rem; }
+h2 { font-size: 1.3rem; color: var(--accent); margin: 2rem 0 1rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.1rem; color: var(--accent2); margin: 1.5rem 0 0.5rem; }
+
+/* Navigation */
+.nav { display: flex; gap: 0.3rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; position: sticky; top: 0; background: var(--bg); padding: 0.8rem 0; z-index: 10; border-bottom: 1px solid var(--border); }
+.nav button { padding: 0.5rem 1rem; background: var(--card); color: var(--fg); border: 1px solid var(--border); border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; }
+.nav button:hover, .nav button.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+/* Sections */
+.section { display: none; animation: fadeIn 0.4s; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Cards */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem; margin: 1rem 0; }
+.card.highlight { border-color: var(--accent); }
+.card.warning { border-color: var(--warn); background: #1a1a0a; }
+.card.irony { border-color: var(--khgt-color); background: #1a0a0a; }
+
+/* Hadith box */
+.hadith { background: #0a1a0a; border-left: 4px solid var(--nu-color); padding: 1rem 1.2rem; margin: 1rem 0; border-radius: 0 8px 8px 0; }
+.hadith .arabic { font-family: 'Amiri', 'Traditional Arabic', serif; font-size: 1.4rem; direction: rtl; text-align: right; line-height: 2.2; color: var(--accent2); margin-bottom: 0.5rem; }
+.hadith .translation { font-style: italic; color: #ccc; }
+.hadith .source { font-size: 0.8rem; color: #888; margin-top: 0.5rem; }
+
+/* Interactive diagram */
+.diagram-container { position: relative; width: 100%; max-width: 600px; margin: 1.5rem auto; }
+.sky-diagram { width: 100%; height: 300px; background: linear-gradient(180deg, #000022 0%, #001144 40%, #ff6600 85%, #ff9933 95%, #ffcc66 100%); border-radius: 12px; position: relative; overflow: hidden; }
+.horizon-line { position: absolute; bottom: 50px; left: 0; right: 0; height: 2px; background: #fff; opacity: 0.5; }
+.horizon-label { position: absolute; bottom: 52px; right: 10px; font-size: 0.7rem; color: #fff; opacity: 0.7; }
+.sun-obj { width: 40px; height: 40px; background: radial-gradient(circle, #ffff00, #ff8800); border-radius: 50%; position: absolute; box-shadow: 0 0 30px #ff880088; transition: all 0.8s; }
+.moon-obj { width: 24px; height: 24px; background: radial-gradient(circle at 30% 30%, #ddd, #888); border-radius: 50%; position: absolute; box-shadow: 0 0 10px #ffffff44; transition: all 0.8s; }
+.angle-indicator { position: absolute; font-size: 0.75rem; color: var(--warn); font-weight: bold; }
+
+/* Criteria comparison */
+.criteria-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin: 1rem 0; }
+@media (min-width: 600px) { .criteria-grid { grid-template-columns: 1fr 1fr; } }
+.criteria-card { background: var(--card); border-radius: 12px; padding: 1rem; border-left: 4px solid; transition: transform 0.2s; cursor: pointer; }
+.criteria-card:hover { transform: translateY(-2px); }
+.criteria-card.nu { border-color: var(--nu-color); }
+.criteria-card.muh { border-color: var(--muh-color); }
+.criteria-card.gov { border-color: var(--gov-color); }
+.criteria-card.khgt { border-color: var(--khgt-color); }
+.criteria-card h4 { margin-bottom: 0.5rem; }
+.criteria-card .tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.7rem; font-weight: bold; }
+.tag.nu { background: var(--nu-color); color: #000; }
+.tag.muh { background: var(--muh-color); color: #000; }
+.tag.gov { background: var(--gov-color); color: #fff; }
+.tag.khgt { background: var(--khgt-color); color: #fff; }
+
+/* Timeline */
+.timeline { position: relative; margin: 2rem 0; padding-left: 30px; }
+.timeline::before { content: ''; position: absolute; left: 14px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+.tl-item { position: relative; margin-bottom: 1.5rem; padding-left: 20px; }
+.tl-item::before { content: ''; position: absolute; left: -22px; top: 6px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid; }
+.tl-item.past::before { background: var(--accent); border-color: var(--accent); }
+.tl-item.current::before { background: var(--warn); border-color: var(--warn); box-shadow: 0 0 8px var(--warn); }
+.tl-item.future::before { background: transparent; border-color: #666; }
+.tl-date { font-size: 0.8rem; color: var(--accent); font-weight: bold; }
+.tl-content { margin-top: 0.2rem; }
+
+/* Slider control */
+.slider-group { margin: 1.5rem 0; text-align: center; }
+.slider-group input[type="range"] { width: 80%; max-width: 500px; accent-color: var(--accent); }
+.slider-label { display: flex; justify-content: space-between; max-width: 500px; margin: 0.5rem auto; font-size: 0.8rem; color: #888; }
+
+/* Result comparison table */
+.result-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+.result-table th { background: var(--panel); padding: 0.7rem; text-align: left; border-bottom: 2px solid var(--border); }
+.result-table td { padding: 0.7rem; border-bottom: 1px solid var(--border); }
+.result-table tr:hover { background: #ffffff08; }
+.result-table .same { color: var(--nu-color); }
+.result-table .diff { color: var(--khgt-color); }
+
+/* Key insight */
+.insight { background: linear-gradient(135deg, #1a1a3a, #2a1a3a); border: 1px solid #4a2a6a; border-radius: 12px; padding: 1.2rem; margin: 1.5rem 0; text-align: center; }
+.insight .big { font-size: 1.5rem; font-weight: bold; color: var(--warn); margin-bottom: 0.5rem; }
+
+/* Expandable */
+.expandable { cursor: pointer; }
+.expandable .expand-header { display: flex; justify-content: space-between; align-items: center; }
+.expandable .expand-header::after { content: '▼'; font-size: 0.7rem; transition: transform 0.3s; }
+.expandable.open .expand-header::after { transform: rotate(180deg); }
+.expandable .expand-body { max-height: 0; overflow: hidden; transition: max-height 0.4s; }
+.expandable.open .expand-body { max-height: 2000px; }
+
+/* Map visualization */
+.world-map { width: 100%; height: 200px; background: var(--card); border-radius: 12px; position: relative; overflow: hidden; margin: 1rem 0; }
+.map-zone { position: absolute; top: 0; bottom: 0; opacity: 0.3; }
+.map-label { position: absolute; font-size: 0.65rem; color: #fff; font-weight: bold; text-shadow: 0 1px 3px #000; }
+.map-legend { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 0.5rem 0; font-size: 0.8rem; }
+.map-legend-item { display: flex; align-items: center; gap: 0.3rem; }
+.map-legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+/* Footer */
+.footer { text-align: center; padding: 2rem 0; color: #666; font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+.footer a { color: var(--accent); text-decoration: none; }
+
+/* Quiz */
+.quiz { margin: 1rem 0; }
+.quiz-q { font-weight: bold; margin-bottom: 0.8rem; }
+.quiz-option { display: block; width: 100%; text-align: left; padding: 0.8rem 1rem; margin: 0.3rem 0; background: var(--card); border: 1px solid var(--border); border-radius: 8px; color: var(--fg); cursor: pointer; transition: all 0.3s; font-size: 0.95rem; }
+.quiz-option:hover { border-color: var(--accent); }
+.quiz-option.correct { background: #0a2a0a; border-color: var(--nu-color); }
+.quiz-option.wrong { background: #2a0a0a; border-color: var(--khgt-color); opacity: 0.6; }
+.quiz-option.disabled { pointer-events: none; }
+.quiz-feedback { margin-top: 0.8rem; padding: 0.8rem; border-radius: 8px; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct { background: #0a2a0a; border: 1px solid var(--nu-color); }
+.quiz-feedback.wrong { background: #2a0a0a; border: 1px solid var(--khgt-color); }
+
+.link-google { font-family: 'Amiri', serif; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <h1><span class="emoji">🌙</span> Kenapa NU & Muhammadiyah<br>Beda Mulai Puasa?</h1>
+  <p class="subtitle">Panduan Interaktif untuk Memahami Perbedaan Penentuan Awal Ramadhan 2026</p>
+
+  <nav class="nav">
+    <button class="active" onclick="showSection('intro')">📖 Pengantar</button>
+    <button onclick="showSection('science')">🔭 Sains</button>
+    <button onclick="showSection('methods')">⚖️ Metode</button>
+    <button onclick="showSection('2026')">📅 Ramadhan 2026</button>
+    <button onclick="showSection('irony')">🔄 Ironi</button>
+    <button onclick="showSection('quiz')">🧠 Kuis</button>
+  </nav>
+
+  <!-- INTRO -->
+  <div id="intro" class="section active">
+    <h2>📖 Mengapa Setiap Tahun Ada Perbedaan?</h2>
+    
+    <div class="card">
+      <p>Setiap menjelang Ramadhan, pertanyaan yang sama muncul: <strong>"Kok beda sih mulai puasanya?"</strong></p>
+      <p style="margin-top:0.5rem">Jawabannya ternyata bukan tentang siapa yang "benar" dan siapa yang "salah" — tapi tentang <strong>bagaimana manusia memilih alat dan kriteria</strong> untuk menentukan kapan bulan baru dimulai.</p>
+    </div>
+
+    <h3>Dasarnya Sama: Hadits Nabi ﷺ</h3>
+    <div class="hadith">
+      <div class="arabic">صُومُوا لِرُؤْيَتِهِ وَأَفْطِرُوا لِرُؤْيَتِهِ فَإِنْ غُبِّيَ عَلَيْكُمْ فَأَكْمِلُوا عِدَّةَ شَعْبَانَ ثَلَاثِينَ يَوْمًا</div>
+      <div class="translation">"Berpuasalah karena terlihat hilal (bulan sabit baru) dan berbukalah (Idul Fitri) karena terlihat hilal. Jika terhalang (mendung), maka sempurnakanlah bilangan Sya'ban tiga puluh hari."</div>
+      <div class="source">HR. Bukhari & Muslim</div>
+    </div>
+
+    <div class="card">
+      <p><strong>Semua sepakat:</strong> pergantian bulan Hijriyah ditandai oleh <strong>hilal</strong> (bulan sabit baru yang sangat tipis setelah bulan mati/konjungsi).</p>
+      <p style="margin-top:0.5rem"><strong>Yang berbeda:</strong> Bagaimana cara memastikan hilal itu "sudah ada"?</p>
+      <ul style="margin-top:0.5rem; padding-left:1.2rem;">
+        <li>Apakah harus <strong>dilihat langsung</strong> oleh mata? (Rukyat)</li>
+        <li>Atau cukup <strong>dihitung secara astronomi</strong> bahwa hilal "sudah wujud"? (Hisab)</li>
+        <li>Atau kombinasi keduanya?</li>
+      </ul>
+    </div>
+
+    <div class="insight">
+      <div class="big">💡 Kunci Pemahaman</div>
+      <p>Perbedaan bukan tentang agama vs sains.<br>
+      <strong>Keduanya menggunakan sains.</strong><br>
+      Perbedaannya ada di: sejauh mana hadits Nabi tentang "melihat hilal" dipegang sebagai metode utama, vs menggantinya dengan perhitungan.</p>
+    </div>
+  </div>
+
+  <!-- SCIENCE -->
+  <div id="science" class="section">
+    <h2>🔭 Sains di Balik Hilal</h2>
+    
+    <h3>Apa itu Hilal?</h3>
+    <div class="card">
+      <p>Hilal adalah <strong>bulan sabit pertama</strong> yang terlihat setelah fase "bulan mati" (new moon / konjungsi).</p>
+      <p style="margin-top:0.5rem">Saat konjungsi, Bulan berada tepat di antara Bumi dan Matahari — sehingga sisi gelap Bulan menghadap Bumi. Tak ada yang bisa dilihat.</p>
+      <p style="margin-top:0.5rem">Setelah konjungsi, Bulan mulai bergeser, dan sebagian kecil permukaannya mulai memantulkan cahaya Matahari ke Bumi. Sabit tipis inilah yang disebut <strong>hilal</strong>.</p>
+    </div>
+
+    <h3>Simulasi: Posisi Matahari & Bulan saat Maghrib</h3>
+    <div class="slider-group">
+      <label for="day-slider"><strong>Pilih tanggal:</strong> <span id="day-label">17 Feb 2026 (Hari Konjungsi)</span></label>
+      <input type="range" id="day-slider" min="0" max="2" value="0" oninput="updateDiagram()">
+      <div class="slider-label">
+        <span>17 Feb</span>
+        <span>18 Feb</span>
+        <span>19 Feb</span>
+      </div>
+    </div>
+
+    <div class="diagram-container">
+      <div class="sky-diagram" id="sky">
+        <div class="horizon-line"></div>
+        <div class="horizon-label">── Garis Horizon (Ufuk) ──</div>
+        <div class="sun-obj" id="sun"></div>
+        <div class="moon-obj" id="moon"></div>
+        <div class="angle-indicator" id="angle-text"></div>
+      </div>
+    </div>
+    <div id="diagram-info" class="card" style="text-align:center;"></div>
+
+    <h3>Faktor yang Menentukan Visibilitas Hilal</h3>
+    <div class="criteria-grid">
+      <div class="card">
+        <h4>📐 Tinggi Bulan (Altitude)</h4>
+        <p>Seberapa tinggi bulan di atas horizon saat matahari terbenam. Semakin tinggi = semakin mudah terlihat.</p>
+        <p style="margin-top:0.5rem; color:var(--warn);">Minimal ~3° untuk bisa terlihat mata (MABIMS). Muhammadiyah (lama) cukup >0°.</p>
+      </div>
+      <div class="card">
+        <h4>📏 Elongasi</h4>
+        <p>Jarak sudut antara Bulan dan Matahari. Semakin jauh = sabit semakin tebal dan terang.</p>
+        <p style="margin-top:0.5rem; color:var(--warn);">Danjon Limit: di bawah 7° elongasi, hilal MUSTAHIL terlihat bahkan dengan teleskop.</p>
+      </div>
+      <div class="card">
+        <h4>🌅 Moonset vs Sunset</h4>
+        <p>Apakah bulan terbenam sebelum atau sesudah matahari? Kalau bulan terbenam duluan, hilal tidak mungkin terlihat.</p>
+      </div>
+      <div class="card">
+        <h4>⏰ Umur Bulan</h4>
+        <p>Berapa jam sejak konjungsi? Semakin lama = sabit semakin tebal. Biasanya perlu 15-24 jam minimum.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- METHODS -->
+  <div id="methods" class="section">
+    <h2>⚖️ 4 Metode yang Dipakai di Indonesia</h2>
+    
+    <p>Semua metode di bawah menggunakan ilmu astronomi. Perbedaannya: <strong>di mana garis batas "hilal sudah ada" ditarik.</strong></p>
+
+    <div class="criteria-grid">
+      <div class="criteria-card nu expandable" onclick="toggleExpand(this)">
+        <div class="expand-header">
+          <h4><span class="tag nu">NU</span> Rukyatul Hilal + Imkanur Rukyah</h4>
+        </div>
+        <div class="expand-body">
+          <p style="margin-top:0.8rem"><strong>Prinsip:</strong> Hilal harus DILIHAT langsung oleh mata. Perhitungan astronomi dipakai sebagai <em>pembantu</em>, bukan penentu.</p>
+          <p style="margin-top:0.5rem"><strong>Kriteria pendukung (IRNU):</strong> Tinggi ≥3°, elongasi ≥6,4°</p>
+          <p style="margin-top:0.5rem"><strong>Dalil utama:</strong> Hadits "صوموا لرؤيته" — perintah Nabi ﷺ untuk melihat hilal.</p>
+          <p style="margin-top:0.5rem"><strong>Filosofi:</strong> Nabi ﷺ memerintahkan rukyat (melihat). Hisab membantu tapi tidak menggantikan perintah itu. Jika tidak terlihat, lengkapi 30 hari.</p>
+          <div class="insight" style="margin-top:0.8rem; font-size:0.85rem;">
+            NU meletakkan <strong>hadits di atas kalkulasi</strong>. Sains adalah alat bantu, bukan pengganti perintah Nabi ﷺ.
+          </div>
+        </div>
+      </div>
+
+      <div class="criteria-card gov expandable" onclick="toggleExpand(this)">
+        <div class="expand-header">
+          <h4><span class="tag gov">PEMERINTAH</span> Sidang Isbat + Kriteria MABIMS</h4>
+        </div>
+        <div class="expand-body">
+          <p style="margin-top:0.8rem"><strong>Prinsip:</strong> Gabungan rukyat dan hisab. Sidang resmi yang dipimpin Menteri Agama.</p>
+          <p style="margin-top:0.5rem"><strong>Kriteria MABIMS:</strong> Tinggi ≥3°, elongasi ≥6,4° (disepakati Brunei, Indonesia, Malaysia, Singapura)</p>
+          <p style="margin-top:0.5rem"><strong>Proses:</strong> Petugas melakukan rukyat di puluhan titik. Lalu sidang membahas hasil pengamatan + data hisab. Menteri Agama mengumumkan keputusan.</p>
+          <p style="margin-top:0.5rem"><strong>Filosofi:</strong> Musyawarah antar ormas Islam + bukti ilmiah + kesaksian rukyat. Keputusan kolektif untuk seluruh Indonesia.</p>
+        </div>
+      </div>
+
+      <div class="criteria-card muh expandable" onclick="toggleExpand(this)">
+        <div class="expand-header">
+          <h4><span class="tag muh">MUHAMMADIYAH (LAMA)</span> Hisab Wujudul Hilal</h4>
+        </div>
+        <div class="expand-body">
+          <p style="margin-top:0.8rem"><strong>Prinsip:</strong> Cukup dihitung bahwa hilal "sudah wujud" (ada di atas horizon >0°), tidak perlu terlihat oleh mata.</p>
+          <p style="margin-top:0.5rem"><strong>Kriteria:</strong> Konjungsi sudah terjadi + bulan terbenam SETELAH matahari (altitude >0°)</p>
+          <p style="margin-top:0.5rem"><strong>Filosofi:</strong> Al-Qur'an menyebut "perhitungan" (QS. Yunus:5). Hisab modern sudah sangat akurat, jadi cukup menghitung tanpa perlu melihat.</p>
+          <p style="margin-top:0.5rem; color:var(--warn)"><strong>Masalah:</strong> Pada 0-2° altitude, hilal secara fisika MUSTAHIL terlihat. Jadi "wujud" secara hitungan tapi belum ada secara visual.</p>
+          <p style="margin-top:0.5rem"><em>Dipakai Muhammadiyah selama puluhan tahun hingga 2025.</em></p>
+        </div>
+      </div>
+
+      <div class="criteria-card khgt expandable" onclick="toggleExpand(this)">
+        <div class="expand-header">
+          <h4><span class="tag khgt">MUHAMMADIYAH (BARU)</span> Kalender Hijriah Global Tunggal (KHGT)</h4>
+        </div>
+        <div class="expand-body">
+          <p style="margin-top:0.8rem"><strong>Prinsip:</strong> Satu tanggal Hijriah untuk SELURUH DUNIA. "Satu hari, satu tanggal."</p>
+          <p style="margin-top:0.5rem"><strong>Mekanisme:</strong> "Hari Universal" 48 jam dimulai dari Garis Batas Tanggal Internasional (Samudera Pasifik). Jika ijtimak terjadi dalam rentang ini + kriteria PKG terpenuhi di mana saja di dunia sebelum tengah malam UTC → bulan baru dimulai.</p>
+          <p style="margin-top:0.5rem"><strong>Kriteria PKG:</strong> Tinggi ≥5°, elongasi ≥8° (di manapun di muka bumi)</p>
+          <p style="margin-top:0.5rem; color:var(--khgt-color)"><strong>Konsekuensi:</strong> Indonesia (di ujung timur dunia) bisa mulai bulan baru lebih awal dari negara lain, karena "Hari Universal" dimulai dari date line di Pasifik.</p>
+          <p style="margin-top:0.5rem"><em>Baru dipakai mulai 1447 H (2025/2026).</em></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="big">🔑 Poin Penting</div>
+      <p>Perhitungan astronomi itu <strong>alat</strong>, bukan penentu.<br>
+      Manusia-lah yang <strong>memilih</strong> kriteria dan standard mana yang dipakai.<br>
+      Buktinya? Muhammadiyah tahun ini mengganti alat/kriteria mereka — hasilnya berubah.</p>
+    </div>
+  </div>
+
+  <!-- 2026 -->
+  <div id="2026" class="section">
+    <h2>📅 Apa yang Terjadi Ramadhan 2026?</h2>
+
+    <h3>Timeline Astronomi</h3>
+    <div class="timeline">
+      <div class="tl-item past">
+        <div class="tl-date">17 Feb 2026, 19:01 WIB</div>
+        <div class="tl-content"><strong>Ijtimak (Konjungsi)</strong> — Bulan, Bumi, Matahari segaris. Bulan "mati", tak terlihat.</div>
+      </div>
+      <div class="tl-item current">
+        <div class="tl-date">17 Feb 2026, Maghrib (~18:00 WIB)</div>
+        <div class="tl-content">
+          <strong>Rukyat pertama?</strong> ❌ Mustahil.<br>
+          Jakarta: bulan terbenam <strong>6 menit SEBELUM matahari</strong><br>
+          Riyadh: bulan terbenam 42 detik sebelum matahari<br>
+          <span style="color:var(--khgt-color)">Di seluruh dunia Islam: elongasi < 7° (di bawah Danjon Limit) → mustahil terlihat bahkan dengan teleskop</span>
+        </div>
+      </div>
+      <div class="tl-item current">
+        <div class="tl-date">17 Feb 2026, Sore</div>
+        <div class="tl-content"><strong>Sidang Isbat Kemenag.</strong> Hilal tidak terlihat → istikmal (30 Sya'ban dilengkapi) → 1 Ramadhan = 19 Feb.</div>
+      </div>
+      <div class="tl-item current" style="border-left: 3px solid var(--muh-color); padding-left: 22px; margin-left: -3px;">
+        <div class="tl-date" style="color:var(--muh-color)">17 Feb 2026 (KHGT)</div>
+        <div class="tl-content">
+          <strong>Muhammadiyah (KHGT):</strong> Ijtimak terjadi → cek PKG → di belahan bumi barat, kriteria 5° & 8° <em>akan</em> terpenuhi sebelum tengah malam UTC → 1 Ramadhan = <strong>18 Feb</strong>
+        </div>
+      </div>
+      <div class="tl-item future">
+        <div class="tl-date">18 Feb 2026, Maghrib</div>
+        <div class="tl-content"><strong>Hilal mulai terlihat</strong> di wilayah barat. Kriteria MABIMS terpenuhi di Indonesia. Ini adalah malam pertama tarawih untuk sebagian besar dunia Islam.</div>
+      </div>
+      <div class="tl-item future">
+        <div class="tl-date">19 Feb 2026</div>
+        <div class="tl-content"><strong>1 Ramadhan</strong> untuk Pemerintah RI, NU, Saudi Arabia, SG, MY, BN, dan sebagian besar dunia Islam.</div>
+      </div>
+    </div>
+
+    <h3>Siapa Mulai Kapan?</h3>
+    <table class="result-table">
+      <thead>
+        <tr><th>Pihak</th><th>1 Ramadhan</th><th>Metode</th></tr>
+      </thead>
+      <tbody>
+        <tr class="diff"><td><span class="tag khgt">MUHAMMADIYAH</span></td><td><strong>18 Feb 2026</strong></td><td>KHGT (baru)</td></tr>
+        <tr class="same"><td><span class="tag gov">PEMERINTAH RI</span></td><td><strong>19 Feb 2026*</strong></td><td>Sidang Isbat + MABIMS</td></tr>
+        <tr class="same"><td><span class="tag nu">NU</span></td><td><strong>19 Feb 2026*</strong></td><td>Rukyatul Hilal</td></tr>
+        <tr class="same"><td>🇸🇦 Arab Saudi</td><td><strong>19 Feb 2026*</strong></td><td>Rukyat lokal</td></tr>
+        <tr class="same"><td>🇸🇬🇲🇾🇧🇳 MABIMS</td><td><strong>19 Feb 2026*</strong></td><td>Imkanur Rukyah</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.8rem; color:#888;">*Menunggu sidang isbat/rukyat resmi, tapi secara astronomi sangat kuat ke 19 Feb.</p>
+
+    <div class="card warning">
+      <h4>⚡ Muhammadiyah akan mulai puasa SENDIRIAN</h4>
+      <p>Satu hari lebih awal dari hampir seluruh dunia Islam — termasuk Makkah dan Madinah.</p>
+    </div>
+
+    <h3>Visualisasi: Siapa Bisa Lihat Hilal di Mana?</h3>
+    <div class="world-map" id="worldMap">
+      <div class="map-zone" style="left:0; width:15%; background:#f44336;" id="zone-impossible"></div>
+      <div class="map-zone" style="left:15%; width:45%; background:#ff9800;" id="zone-hard"></div>
+      <div class="map-zone" style="left:60%; width:25%; background:#ffeb3b;" id="zone-maybe"></div>
+      <div class="map-zone" style="left:85%; width:15%; background:#4caf50;" id="zone-visible"></div>
+      <div class="map-label" style="left:3%; top:40%;">🇮🇩 Indonesia<br><small>Bulan terbenam<br>SEBELUM matahari</small></div>
+      <div class="map-label" style="left:25%; top:30%;">🇸🇦 Saudi<br><small>Elongasi ~1°<br>Mustahil</small></div>
+      <div class="map-label" style="left:50%; top:40%;">🇪🇬 Mesir<br><small>Elongasi ~1,3°<br>Mustahil</small></div>
+      <div class="map-label" style="left:75%; top:35%;">🇲🇦 Maroko<br><small>6 menit<br>setelah sunset</small></div>
+      <div class="map-label" style="left:88%; top:30%;">🌊 Atlantik<br><small>Satu-satunya<br>kemungkinan</small></div>
+    </div>
+    <div class="map-legend">
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#f44336;"></div> Mustahil (bulan set duluan)</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#ff9800;"></div> Mustahil (< Danjon Limit)</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#ffeb3b;"></div> Sangat sulit</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#4caf50;"></div> Mungkin (lautan)</div>
+    </div>
+    <p style="font-size:0.85rem; color:#aaa; text-align:center;">Peta visibilitas hilal pada <strong>17 Feb 2026 maghrib</strong> — tidak ada daratan yang bisa melihat hilal</p>
+  </div>
+
+  <!-- IRONY -->
+  <div id="irony" class="section">
+    <h2>🔄 Ironi Besar Tahun 2026</h2>
+
+    <div class="card irony">
+      <h3 style="color:var(--khgt-color)">Kalau Muhammadiyah TIDAK Ganti Metode...</h3>
+      <p style="margin-top:0.5rem">Dengan <strong>wujudul hilal</strong> (metode lama), Muhammadiyah akan cek pada <strong>18 Feb maghrib</strong>:</p>
+      <ul style="padding-left:1.2rem; margin-top:0.5rem;">
+        <li>Konjungsi sudah terjadi? ✅ (17 Feb 19:01 WIB)</li>
+        <li>Bulan terbenam setelah matahari? ✅ (pada 18 Feb, altitude sudah positif)</li>
+        <li>Maka 1 Ramadhan = <strong>19 Februari</strong></li>
+      </ul>
+      <p style="margin-top:0.8rem; font-size:1.1rem; color:var(--accent2)"><strong>→ SAMA dengan pemerintah, NU, Saudi, dan seluruh dunia Islam!</strong></p>
+      <p style="margin-top:0.5rem;">Indonesia akan mulai puasa <strong>bersama-sama</strong>.</p>
+    </div>
+
+    <div class="card warning">
+      <h3>Tapi Muhammadiyah Ganti ke KHGT...</h3>
+      <p style="margin-top:0.5rem">Dengan kriteria baru, mereka menetapkan 1 Ramadhan = <strong>18 Feb</strong>, satu hari lebih awal dari seluruh dunia.</p>
+      <p style="margin-top:0.5rem">Perubahan alat → hasil berbeda.</p>
+    </div>
+
+    <div class="insight">
+      <div class="big">🎯 Apa yang Ini Buktikan?</div>
+      <p style="margin-top:0.5rem; font-size:1rem;">Awal Ramadhan dan Lebaran adalah <strong>KEPUTUSAN MANUSIA</strong> tentang kriteria mana yang dipilih.</p>
+      <p style="margin-top:0.5rem;">Bukan wahyu. Bukan otomatis. Tapi hasil dari manusia yang memilih <em>alat</em> dan <em>standar</em>.</p>
+      <p style="margin-top:0.5rem;">Sains astronominya sama persis — yang berbeda adalah <strong>batasan yang dipilih manusia</strong>.</p>
+    </div>
+
+    <h3>Pertanyaan Reflektif</h3>
+    <div class="card">
+      <p>1️⃣ Kalau wujudul hilal bisa diganti demi "persatuan umat global" — <strong>kenapa tidak dari dulu diganti demi persatuan Indonesia?</strong></p>
+      <p style="margin-top:0.8rem">2️⃣ KHGT menggunakan Garis Batas Tanggal Internasional (di Samudera Pasifik) sebagai referensi. Garis ini adalah <strong>konsep Barat modern</strong>, bukan dari peradaban Islam. Apakah tepat menjadi dasar kalender "Hijriah"?</p>
+      <p style="margin-top:0.8rem">3️⃣ Indonesia di ujung timur dunia Islam. Dengan KHGT, Indonesia bisa mendahului Makkah dalam memulai Ramadhan. Apakah ini "menyatukan" atau justru "memisahkan"?</p>
+      <p style="margin-top:0.8rem">4️⃣ Dengan bukti bahwa kriteria bisa diganti dan hasilnya berubah — <strong>bukankah ini menunjukkan bahwa semua pihak sebenarnya bisa duduk bermusyawarah</strong> untuk memilih satu kriteria bersama demi kemaslahatan?</p>
+    </div>
+
+    <h3>Posisi NU: Hadits Tetap di Atas Hitungan</h3>
+    <div class="hadith">
+      <div class="translation">"Nabi ﷺ memerintahkan kita untuk MELIHAT hilal. Perintah itu tidak bisa digantikan oleh perhitungan, secanggih apapun. Perhitungan hanya alat bantu untuk memperkirakan kapan dan di mana hilal mungkin terlihat — tetapi keputusan akhir tetap berdasarkan pengamatan."</div>
+      <div class="source">— Prinsip dasar NU dalam penentuan awal bulan Hijriah</div>
+    </div>
+    <div class="card">
+      <p>Ini <strong>bukan anti-sains</strong>. NU menggunakan perhitungan astronomi canggih (kriteria IRNU: ≥3° altitude, ≥6,4° elongasi). Bahkan kriteria ini LEBIH ketat dari wujudul hilal Muhammadiyah yang cuma >0°.</p>
+      <p style="margin-top:0.5rem">Bedanya: bagi NU, perhitungan itu <strong>alat bantu</strong>. Keputusan akhir tetap pada <strong>rukyat</strong> (pengamatan) sesuai perintah hadits. Jika ada yang bersaksi melihat hilal dan sidang isbat menerima kesaksian itu — maka itulah yang berlaku.</p>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz" class="section">
+    <h2>🧠 Uji Pemahaman</h2>
+    <p>Cek apakah kamu sudah paham perbedaannya!</p>
+
+    <div class="quiz card" id="q1">
+      <div class="quiz-q">1. Apa perbedaan mendasar antara NU dan Muhammadiyah dalam menentukan awal Ramadhan?</div>
+      <button class="quiz-option" onclick="answer(1,'a',false)">a) NU pakai sains, Muhammadiyah pakai agama</button>
+      <button class="quiz-option" onclick="answer(1,'b',false)">b) Muhammadiyah pakai sains, NU tidak pakai sains sama sekali</button>
+      <button class="quiz-option" onclick="answer(1,'c',true)">c) Keduanya pakai sains, tapi NU meletakkan hadits rukyat di atas perhitungan, sedang Muhammadiyah mengandalkan perhitungan</button>
+      <button class="quiz-option" onclick="answer(1,'d',false)">d) Tidak ada perbedaan, hanya beda hari saja</button>
+      <div class="quiz-feedback correct" id="q1-correct">✅ Tepat! Keduanya menggunakan astronomi. Perbedaannya di mana posisi hadits rukyat: sebagai metode utama (NU) atau bisa diganti perhitungan (Muhammadiyah).</div>
+      <div class="quiz-feedback wrong" id="q1-wrong">❌ Kurang tepat. Keduanya menggunakan sains astronomi. Perbedaannya: NU meletakkan hadits "melihat hilal" sebagai metode utama + sains sebagai alat bantu, sedangkan Muhammadiyah mengandalkan perhitungan sebagai penentu.</div>
+    </div>
+
+    <div class="quiz card" id="q2">
+      <div class="quiz-q">2. Kenapa Muhammadiyah tahun 2026 mulai puasa SENDIRI, lebih awal dari seluruh dunia?</div>
+      <button class="quiz-option" onclick="answer(2,'a',false)">a) Karena hisab Muhammadiyah lebih canggih</button>
+      <button class="quiz-option" onclick="answer(2,'b',true)">b) Karena Muhammadiyah baru ganti metode ke KHGT, yang menggunakan "Hari Universal" 48 jam dari Garis Batas Tanggal Internasional</button>
+      <button class="quiz-option" onclick="answer(2,'c',false)">c) Karena hilal terlihat lebih dulu di Indonesia</button>
+      <button class="quiz-option" onclick="answer(2,'d',false)">d) Karena Indonesia lebih dekat ke bulan</button>
+      <div class="quiz-feedback correct" id="q2-correct">✅ Benar! KHGT menggunakan konsep "Hari Universal" 48 jam yang dimulai dari Garis Batas Tanggal di Pasifik. Indonesia (di timur) jadi "memulai" duluan. Ironisnya, kalau masih pakai wujudul hilal, hasilnya sama dengan NU dan pemerintah.</div>
+      <div class="quiz-feedback wrong" id="q2-wrong">❌ Bukan. Justru sebaliknya — hilal pada 17 Feb mustahil terlihat di Indonesia (bulan terbenam sebelum matahari). Muhammadiyah beda karena mengganti metode ke KHGT yang menggunakan referensi Garis Batas Tanggal Internasional.</div>
+    </div>
+
+    <div class="quiz card" id="q3">
+      <div class="quiz-q">3. Kalau Muhammadiyah TIDAK ganti metode (tetap wujudul hilal), kapan 1 Ramadhan mereka?</div>
+      <button class="quiz-option" onclick="answer(3,'a',false)">a) Tetap 18 Februari</button>
+      <button class="quiz-option" onclick="answer(3,'b',true)">b) 19 Februari — sama dengan NU dan pemerintah</button>
+      <button class="quiz-option" onclick="answer(3,'c',false)">c) 17 Februari — lebih awal lagi</button>
+      <button class="quiz-option" onclick="answer(3,'d',false)">d) Tidak bisa ditentukan</button>
+      <div class="quiz-feedback correct" id="q3-correct">✅ Tepat! Dengan wujudul hilal, Muhammadiyah cek 18 Feb maghrib → bulan sudah wujud → 1 Ramadhan = 19 Feb = SAMA dengan semua. Indonesia bisa puasa bersama-sama. Tapi karena ganti ke KHGT, jadinya beda lagi.</div>
+      <div class="quiz-feedback wrong" id="q3-wrong">❌ Dengan wujudul hilal (metode lama), Muhammadiyah akan cek pada 18 Feb maghrib, menemukan bulan sudah wujud, dan menetapkan 1 Ramadhan = 19 Feb — SAMA dengan semua pihak lain.</div>
+    </div>
+
+    <div class="quiz card" id="q4">
+      <div class="quiz-q">4. Apa yang dibuktikan oleh perubahan metode Muhammadiyah ini?</div>
+      <button class="quiz-option" onclick="answer(4,'a',false)">a) Bahwa Muhammadiyah selalu benar</button>
+      <button class="quiz-option" onclick="answer(4,'b',false)">b) Bahwa sains astronomi tidak bisa dipercaya</button>
+      <button class="quiz-option" onclick="answer(4,'c',true)">c) Bahwa awal Ramadhan adalah keputusan manusia tentang kriteria mana yang dipilih — sains adalah alatnya, manusia yang memutuskan</button>
+      <button class="quiz-option" onclick="answer(4,'d',false)">d) Bahwa NU salah menggunakan rukyat</button>
+      <div class="quiz-feedback correct" id="q4-correct">✅ Exactly! Sains astronominya sama persis untuk semua pihak. Yang berbeda adalah pilihan manusia: kriteria mana, standar berapa derajat, apakah harus dilihat langsung. Ini keputusan manusia, dan seharusnya bisa dimusyawarahkan demi kemaslahatan bersama.</div>
+      <div class="quiz-feedback wrong" id="q4-wrong">❌ Yang dibuktikan: sains astronominya sama untuk semua — yang berbeda adalah PILIHAN MANUSIA tentang kriteria mana yang dipakai. Pergantian metode Muhammadiyah menunjukkan bahwa ini adalah keputusan manusia, bukan sesuatu yang "otomatis" dari sains.</div>
+    </div>
+
+    <div id="quiz-result" class="insight" style="display:none;">
+      <div class="big" id="quiz-score"></div>
+      <p id="quiz-message"></p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Dibuat oleh <a href="https://x.com/ainunnajib">@ainunnajib</a> & AI-Noon 🌞</p>
+    <p>Wallahu a'lam bishawab — Allah yang Maha Mengetahui 🤲</p>
+    <p style="margin-top:0.5rem;">Data astronomi: International Astronomical Center (IAC), moonsighting.com, al-habib.info</p>
+  </div>
+</div>
+
+<script>
+// Navigation
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Sky diagram
+function updateDiagram() {
+  const day = parseInt(document.getElementById('day-slider').value);
+  const sky = document.getElementById('sky');
+  const sun = document.getElementById('sun');
+  const moon = document.getElementById('moon');
+  const angle = document.getElementById('angle-text');
+  const info = document.getElementById('diagram-info');
+  const label = document.getElementById('day-label');
+  
+  const w = sky.offsetWidth;
+  const h = sky.offsetHeight;
+  const horizonY = h - 50;
+  
+  const configs = [
+    { // 17 Feb - conjunction day
+      sunX: w * 0.5 - 20, sunY: horizonY - 20,
+      moonX: w * 0.45 - 12, moonY: horizonY + 10,
+      angleVal: '-2°', angleColor: '#f44336',
+      label: '17 Feb 2026 (Hari Konjungsi)',
+      info: '❌ <strong>Jakarta, 17 Feb Maghrib:</strong> Bulan terbenam 6 menit SEBELUM matahari. Altitude bulan negatif (-2°). Elongasi < 1°. MUSTAHIL terlihat di manapun di dunia.<br><br>🔴 Muhammadiyah (KHGT): tetap menghitung ini sebagai awal bulan baru karena ijtimak sudah terjadi + PKG akan terpenuhi di tempat lain sebelum tengah malam UTC.'
+    },
+    { // 18 Feb
+      sunX: w * 0.5 - 20, sunY: horizonY - 20,
+      moonX: w * 0.55 - 12, moonY: horizonY - 40,
+      angleVal: '+4°', angleColor: '#ffeb3b',
+      label: '18 Feb 2026 (Hilal mulai terlihat)',
+      info: '🟡 <strong>Jakarta, 18 Feb Maghrib:</strong> Bulan sudah ~4° di atas horizon saat matahari terbenam. Hilal mulai bisa terlihat di wilayah barat dunia. Kriteria MABIMS terpenuhi.<br><br>🟢 Wujudul Hilal (Muhammadiyah lama): bulan sudah wujud → 1 Ramadhan = 19 Feb (SAMA dengan NU/Pemerintah)'
+    },
+    { // 19 Feb
+      sunX: w * 0.5 - 20, sunY: horizonY - 20,
+      moonX: w * 0.6 - 12, moonY: horizonY - 90,
+      angleVal: '+16°', angleColor: '#4caf50',
+      label: '19 Feb 2026 (1 Ramadhan mayoritas dunia)',
+      info: '✅ <strong>Jakarta, 19 Feb:</strong> 1 Ramadhan untuk Pemerintah RI, NU, Saudi Arabia, SG, MY, BN. Hilal sudah jelas terlihat di seluruh dunia. Bulan ~16° di atas horizon.<br><br>Muhammadiyah sudah memasuki hari ke-2 puasa.'
+    }
+  ];
+  
+  const c = configs[day];
+  sun.style.left = c.sunX + 'px';
+  sun.style.bottom = (h - c.sunY) + 'px';
+  moon.style.left = c.moonX + 'px';
+  moon.style.bottom = (h - c.moonY) + 'px';
+  
+  angle.textContent = 'Altitude bulan: ' + c.angleVal;
+  angle.style.color = c.angleColor;
+  angle.style.left = (c.moonX + 30) + 'px';
+  angle.style.bottom = (h - c.moonY + 5) + 'px';
+  
+  label.textContent = c.label;
+  info.innerHTML = c.info;
+}
+
+// Expandable cards
+function toggleExpand(el) {
+  el.classList.toggle('open');
+}
+
+// Quiz
+let quizAnswers = {};
+let totalQuestions = 4;
+
+function answer(q, choice, correct) {
+  if (quizAnswers[q] !== undefined) return;
+  quizAnswers[q] = correct;
+  
+  const container = document.getElementById('q' + q);
+  const options = container.querySelectorAll('.quiz-option');
+  
+  options.forEach(opt => {
+    opt.classList.add('disabled');
+    const optChoice = opt.textContent.charAt(0);
+    if (opt.onclick.toString().includes('true')) {
+      opt.classList.add('correct');
+    } else if (optChoice === choice && !correct) {
+      opt.classList.add('wrong');
+    }
+  });
+  
+  if (correct) {
+    document.getElementById('q' + q + '-correct').classList.add('show');
+  } else {
+    document.getElementById('q' + q + '-wrong').classList.add('show');
+  }
+  
+  // Check if all answered
+  if (Object.keys(quizAnswers).length === totalQuestions) {
+    const score = Object.values(quizAnswers).filter(v => v).length;
+    const result = document.getElementById('quiz-result');
+    const scoreEl = document.getElementById('quiz-score');
+    const msgEl = document.getElementById('quiz-message');
+    
+    result.style.display = 'block';
+    scoreEl.textContent = score + '/' + totalQuestions + ' Benar!';
+    
+    if (score === totalQuestions) {
+      msgEl.textContent = '🌟 Sempurna! Kamu sudah memahami dengan baik mengapa perbedaan ini terjadi.';
+    } else if (score >= 3) {
+      msgEl.textContent = '👍 Bagus! Hampir sempurna. Coba baca kembali bagian yang belum tepat.';
+    } else if (score >= 2) {
+      msgEl.textContent = '📖 Lumayan! Coba baca lagi bagian Metode dan Ironi untuk pemahaman lebih dalam.';
+    } else {
+      msgEl.textContent = '💡 Jangan khawatir! Topik ini memang kompleks. Coba baca dari awal dan ulangi kuis ini.';
+    }
+    
+    result.scrollIntoView({behavior: 'smooth'});
+  }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  updateDiagram();
+  // Auto-open first expandable on methods page
+});
+</script>
+</body>
+</html>
